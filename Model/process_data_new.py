@@ -82,7 +82,6 @@ if __name__ == "__main__":
       y_harm = librosa.effects.harmonic(y=y_aug)
 
       # CENS
-      #chroma_cens = librosa.feature.chroma_cens(y=y_aug, sr=sr, hop_length=hop_length)
       chroma_cens = librosa.feature.chroma_cens(y=y_harm, sr=sr, hop_length=hop_length)
 
       # Extracting the chroma from a given timestamps
@@ -130,13 +129,11 @@ if __name__ == "__main__":
   del augmented_y_and_labels
   gc.collect()
 
-  #df_dataset = pd.concat(dataset, axis=0).drop_duplicates()
   df_dataset = pd.concat(dataset, axis=0)
   del dataset
   gc.collect()
 
   # TODO: replace this and actually split the train and test data here and save it as .npy
-  #df_dataset.to_csv(out_files, header=True, index=None, float_format="%.6f")
   df_dataset.to_hdf(out_files, key="df", mode="w", complib="zlib", complevel=9)
 
   print(f"[INFO]: Total segments -> {len(df_dataset)}")
